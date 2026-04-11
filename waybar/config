@@ -1,0 +1,137 @@
+{
+	"layer": "top",
+	"position": "top",
+	"height": 30,
+	"spacing": 4,
+	"modules-left": ["custom/launcher", "cpu", "memory", "custom/media", "tray"],
+	"modules-center": ["sway/workspaces"],
+	"modules-right": ["custom/updates", "backlight", "pulseaudio", "network", "bluetooth", "clock", "battery", "custom/power"],
+	
+	"pulseaudio": {
+		"tooltip": false,
+		"scroll-step": 5,
+		"format": "🔊 {volume}%",
+		"format-muted": "🔇 Muted",
+		"on-click": "pkill pavucontrol || pavucontrol",
+		"on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"format-icons": {
+			"default": ["🔈", "🔉", "🔊"]
+		}
+	},
+
+	"sway/workspaces": {
+		"disable-scroll": false,
+		"all-outputs": true,
+		"format": "{name}"
+	},
+	
+	"network": {
+		"tooltip": true,
+		"format-wifi": "📶 {signalStrength}%",
+		"format-ethernet": "🌐 Connected",
+		"format-linked": "🔗 {ifname}",
+		"format-disconnected": "❌ Offline",
+		"format-alt": "{essid} {ipaddr}/{cidr}",
+		"tooltip-format": "{ifname} via {gwaddr}",
+		"tooltip-format-wifi": "📶 {essid} ({signalStrength}%)\n{ipaddr}",
+		"tooltip-format-ethernet": "🌐 {ifname}\n{ipaddr}",
+		"on-click": "~/.config/waybar/scripts/toggle-nmtui.sh"
+	},
+	
+	"backlight": {
+		"device": "intel_backlight",
+		"tooltip": false,
+		"format": "☀ {percent}%",
+		"interval": 1,
+		"on-scroll-up": "brightnessctl set +5%",
+		"on-scroll-down": "brightnessctl set 5%-",
+		"on-click": "brightnessctl set 50%"
+	},
+	
+	"battery": {
+		"states": {
+			"good": 95,
+			"warning": 30,
+			"critical": 15
+		},
+		"format": "🔋 {capacity}%",
+		"format-charging": "⚡ {capacity}%",
+		"format-plugged": "🔌 {capacity}%",
+		"format-alt": "{icon} {time}",
+		"format-icons": ["🪫", "🔋", "🔋", "🔋", "🔋"],
+		"on-click": "gnome-power-statistics"
+	},
+	
+	"tray": {
+		"icon-size": 18,
+		"spacing": 10
+	},
+	
+	"clock": {
+		"timezone": "Asia/Kolkata",
+		"format": "{:%A, %B %d, %Y  %H:%M}",
+		"format-alt": "{:%Y-%m-%d %H:%M:%S}",
+		"interval": 60,
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+		"on-click": "gnome-calendar"
+	},
+	
+	"cpu": {
+		"interval": 15,
+		"format": "💻 {}%",
+		"max-length": 10
+	},
+	
+	"memory": {
+		"interval": 30,
+		"format": "🧠 {}%",
+		"max-length": 10
+	},
+	
+	"custom/media": {
+		"interval": 30,
+		"format": "{icon} {}",
+		"return-type": "json",
+		"max-length": 20,
+		"format-icons": {
+			"spotify": "🎵",
+			"default": "🎶"
+		},
+		"escape": true,
+		"exec": "$HOME/.config/system_scripts/mediaplayer.py 2> /dev/null",
+		"on-click": "playerctl play-pause"
+	},
+	
+	"custom/launcher": {
+		"format": "🚀",
+		"on-click": "wofi --show drun",
+		"on-click-right": "killall wofi"
+	},
+	
+	"custom/power": {
+		"format": "⏻",
+		"on-click": "bash ~/.config/rofi/leave/leave.sh"
+	},
+	
+	"custom/updates": {
+		"format": "📦 {} Update(s)",
+		"exec": "checkupdates | wc -l",
+		"exec-if": "[[ $(checkupdates | wc -l) != 0 ]]",
+		"interval": 15,
+		"on-click": "alacritty -e paru -Syu && notify-send 'The system has been updated' "
+	},
+	
+	"bluetooth": {
+		"format": "🔵",
+		"format-disabled": "🔵",
+		"format-off": "🔵",
+		"format-on": "🔵",
+		"format-connected": "🔵",
+		"format-connected-battery": "🔵",
+		"tooltip-format": "{controller_alias}\t{controller_address}\n{status}",
+		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+		"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+		"on-click": "~/.config/waybar/scripts/toggle-blueman.sh"
+	}
+}

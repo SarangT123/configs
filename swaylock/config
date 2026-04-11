@@ -1,0 +1,18 @@
+# Appearance
+color=000000
+font=sans-serif
+font-size=24
+image=/home/sarang/Pictures/wallpapers/wallpaper2.jpg
+scaling=fill
+# Lock screen behavior
+show-failed-attempts
+daemonize
+
+# Image (optional - use your own wallpaper)
+# image=/path/to/your/wallpaper.jpg
+
+# Effects
+effect-blur=7x5
+indicator
+indicator-radius=100
+indicator-thickness=10

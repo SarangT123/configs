@@ -1,0 +1,101 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "spacing": 4,
+    
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["pulseaudio", "backlight", "battery", "network", "bluetooth", "custom/warp"],
+    
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "all-outputs": true,
+        "format": "{name}",
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": [],
+            "7": [],
+            "8": [],
+            "9": [],
+            "10": []
+        }
+    },
+    
+    "clock": {
+        "timezone": "Asia/Kolkata",
+        "format": "{:%A, %B %d, %Y  %H:%M}",
+        "format-alt": "{:%Y-%m-%d %H:%M:%S}",
+        "interval": 60,
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "gnome-calendar"
+    },
+    
+    "pulseaudio": {
+        "format": "🔊 {volume}%",
+        "format-muted": "🔇 Muted",
+        "on-click": "pkill pavucontrol || pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "scroll-step": 5
+    },
+    
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "☀ {percent}%",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-",
+        "on-click": "brightnessctl set 50%"
+    },
+    
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "🔋 {capacity}%",
+        "format-charging": "⚡ {capacity}%",
+        "format-plugged": "🔌 {capacity}%",
+        "format-alt": "{icon} {time}",
+        "format-icons": ["", "", "", "", ""],
+        "on-click": "gnome-power-statistics"
+    },
+    
+    "network": {
+        "format-wifi": "📶 {signalStrength}%",
+        "format-ethernet": "🌐 Connected",
+        "format-linked": "🔗 {ifname}",
+        "format-disconnected": "❌ Offline",
+        "format-alt": "{essid} {ipaddr}/{cidr}",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "tooltip-format-wifi": "📶 {essid} ({signalStrength}%)\n{ipaddr}",
+        "tooltip-format-ethernet": "🌐 {ifname}\n{ipaddr}",
+        "on-click": "~/.config/waybar/scripts/toggle-nmtui.sh"
+    },
+    
+    "bluetooth": {
+        "format": "🔵 Off",
+        "format-disabled": "🔵 Disabled",
+        "format-off": "🔵 Off",
+        "format-on": "🔵 On",
+        "format-connected": "🔵 {num_connections}",
+        "format-connected-battery": "🔵 {num_connections}",
+        "tooltip-format": "{controller_alias}\t{controller_address}\n{status}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "~/.config/waybar/scripts/toggle-blueman.sh"
+    },
+    
+    "custom/warp": {
+        "format": "{}",
+        "exec": "~/.config/waybar/scripts/warp-status.sh",
+        "interval": 5,
+        "on-click": "~/.config/waybar/scripts/warp-toggle.sh",
+        "tooltip": true,
+        "return-type": "json"
+    }
+}

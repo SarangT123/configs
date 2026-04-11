@@ -1,0 +1,249 @@
+# Default config for sway
+# Copy this to ~/.config/sway/config
+
+### Variables
+set $mod Mod4
+set $left Left
+set $down Down
+set $up Up
+set $right Right
+set $term alacritty
+set $menu wofi --show drun --allow-images --insensitive
+
+### Output configuration
+output * bg /home/sarang/Pictures/wallpapers/wallpaper4.jpg fill
+
+
+# Notification Daemon
+exec swaync
+
+# Toggle control center
+bindsym $mod+Shift+n exec swaync-client -t -sw
+
+#######################################################################
+#mouse control
+
+### Input configuration
+# Natural scrolling for touchpad
+input type:touchpad {
+    natural_scroll enabled
+    tap enabled
+}
+
+#scroll speed
+input type:touchpad {
+    scroll_factor 0.3
+}
+# Natural scrolling for mouse change to enabled
+input type:pointer {
+    natural_scroll disabled
+}
+
+bindsym XF86TouchpadToggle input type:touchpad events toggle enabled disabled
+
+
+#cursor behaviour
+seat * hide_cursor 3000
+seat * hide_cursor when-typing enable
+
+###########################################################################################
+
+
+
+
+#display scaling
+output eDP-1 {
+    scale 1.0
+}
+
+
+#
+
+################################################################
+# Start swayidle daemon
+bindswitch lid:on exec sh -c 'swaylock -f -c 000000 && systemctl suspend'
+exec swayidle -w before-sleep 'swaylock -f -c 000000'
+#################################################################
+
+#--------------------------------------------
+### Key bindings
+# Start a terminal
+bindsym $mod+Return exec $term
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Start launcher
+bindsym alt+space exec $menu
+
+#start game launcher
+bindsym $mod+Shift+g exec heroic
+
+# Run command launcher (for terminal commands)
+bindsym $mod+Shift+d exec wofi --show run
+
+#App launches
+bindsym $mod+Shift+b exec google-chrome-stable
+bindsym $mod+Shift+f exec nautilus
+bindsym $mod+c exec code
+bindsym $mod+Shift+m exec spotify
+bindsym $mod+Shift+w exec google-chrome-stable https://web.whatsapp.com
+bindsym Ctrl+Shift+Escape exec gnome-system-monitor
+bindsym $mod+Shift+Escape exec alacritty -e htop
+bindsym $mod+d exec discord
+
+#screenshot
+bindsym Print exec ~/.config/sway/screenshot.sh full
+bindsym Shift+Print exec ~/.config/sway/screenshot.sh area
+bindsym $mod+Print exec ~/.config/sway/screenshot.sh copy-full
+bindsym $mod+Shift+Print exec ~/.config/sway/screenshot.sh copy-area
+
+# Open config file 
+bindsym KP_Enter exec code ~/.config/sway/config
+
+# Move to workspace left or right
+# bindsym Ctrl+alt+Left workspace next
+# bindsym Ctrl+alt+Right workspace prev
+
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Exit sway
+bindsym $mod+Shift+e exec $HOME/.config/sway/exit.sh
+
+# Brightness controls
+bindsym F4 exec brightnessctl set 5%-
+bindsym F5 exec brightnessctl set +5%
+
+#audio controls
+bindsym F2 exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym F3 exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym F1 exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+
+# Moving around
+# Change focused window
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# Alt tab binding to go in circle
+bindsym Alt+Tab focus right
+bindsym Alt+Shift+Tab focus left
+
+
+
+# Move focused window
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# bindsym $mod+Shift+Left move left
+# bindsym $mod+Shift+Down move down
+# bindsym $mod+Shift+Up move up
+# bindsym $mod+Shift+Right move right
+
+### Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+#moving to workspaces by tabbing
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Switch layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make focused window fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle floating
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between tiling and floating
+bindsym $mod+space focus mode_toggle
+
+# Move focus to parent container
+bindsym $mod+a focus parent
+
+### Resizing
+# mode "resize" {
+#     bindsym $left resize shrink width 10px
+#     bindsym $down resize grow height 10px
+#     bindsym $up resize shrink height 10px
+#     bindsym $right resize grow width 10px
+
+#     bindsym Left resize shrink width 10px
+#     bindsym Down resize grow height 10px
+#     bindsym Up resize shrink height 10px
+#     bindsym Right resize grow width 10px
+
+#     bindsym Return mode "default"
+#     bindsym Escape mode "default"
+# }C
+# bindsym $mod+r mode "resize"
+
+### Status Bar
+bar {
+    swaybar_command waybar
+}
+
+
+###For removing titlebars 
+#########################################
+# keep a visible border (3px)
+default_border pixel 3
+
+# remove the title text for basically all windows
+for_window [title="^.*"] title_format ""
+
+# make the titlebar as small as possible
+titlebar_padding 1
+titlebar_border_thickness 0
+
+# small font for titlebar (1px) — makes the titlebar height minimal
+# NOTE: font size 0 used to be a hack but recent sway may reject 0; 1 is safe.
+font pango:monospace 1
+#########################################
+
+###open the following apps for waybar scripts
+# Make specific apps float and appear at cursor position
+# for_window [app_id="nmtui"] floating enable, move position cursor, move position cursor, resize set 800 600
+# Make specific apps float and appear at cursor position
+
+# With offset (move right 10px, down 10px after cursor positioning)
+for_window [app_id="kitty"] floating enable, move position cursor,move down 30px, resize set 500 500
+for_window [app_id="pavucontrol"] floating enable, move position 1419 0, move down 50px, resize set 500 500
+for_window [app_id="blueman-manager"] floating enable, move position cursor, move down 30px, resize set 500 500
+
+### Autotiling
+exec autotiling
+
+### Gestures 
+exec libinput-gestures-setup start
+
+include /etc/sway/config.d/*
+
