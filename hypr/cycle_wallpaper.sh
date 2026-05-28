@@ -20,12 +20,7 @@ for i in "${!WALLS[@]}"; do
 done
 
 sed -i "s|^# WALLPAPER=.*|# WALLPAPER=$NEXT|" "$CONFIG"
+echo -e "preload = $NEXT\nwallpaper = eDP-1,$NEXT" > "$HPAPER"
 
-cat > "$HPAPER" <<EOF
-preload = $NEXT
-wallpaper = eDP-1,$NEXT
-EOF
-
-hyprctl hyprpaper preload "$NEXT"
 hyprctl hyprpaper wallpaper "eDP-1,$NEXT"
 notify-send "Wallpaper" "$(basename "$NEXT")"
