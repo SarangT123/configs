@@ -1,8 +1,9 @@
 #!/bin/bash
 CONFIG="$HOME/.config/hypr/hyprland.conf"
+HPAPER="$HOME/.config/hypr/hyprpaper.conf"
 WALL_DIR="$HOME/Pictures/wallpapers"
 
-CURRENT=$(grep -oP '(?<=swaybg -i )\S+' "$CONFIG")
+CURRENT=$(grep -oP '(?<=^# WALLPAPER=).*' "$CONFIG")
 WALLS=($(find "$WALL_DIR" -maxdepth 1 -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.webp' \) | sort))
 
 if [[ ${#WALLS[@]} -eq 0 ]]; then
@@ -18,12 +19,13 @@ for i in "${!WALLS[@]}"; do
     fi
 done
 
-sed -i "s|swaybg -i .* -m fill|swaybg -i $NEXT -m fill|" "$CONFIG"
+sed -i "s|^# WALLPAPER=.*|# WALLPAPER=$NEXT|" "$CONFIG"
 
-OLD_PID=$(pgrep -x swaybg)
-swaybg -i "$NEXT" -m fill &
-disown
-sleep 0.2
-[[ -n "$OLD_PID" ]] && kill "$OLD_PID" 2>/dev/null
+cat > "$HPAPER" <<EOF
+preload = $NEXT
+wallpaper = eDP-1,$NEXT
+EOF
 
+hyprctl hyprpaper preload "$NEXT"
+hyprctl hyprpaper wallpaper "eDP-1,$NEXT"
 notify-send "Wallpaper" "$(basename "$NEXT")"
