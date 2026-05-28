@@ -1,6 +1,5 @@
 #!/bin/bash
 CONFIG="$HOME/.config/hypr/hyprland.conf"
-HPAPER="$HOME/.config/hypr/hyprpaper.conf"
 WALL_DIR="$HOME/Pictures/wallpapers"
 
 CURRENT=$(grep -oP '(?<=^# WALLPAPER=).*' "$CONFIG")
@@ -20,7 +19,9 @@ for i in "${!WALLS[@]}"; do
 done
 
 sed -i "s|^# WALLPAPER=.*|# WALLPAPER=$NEXT|" "$CONFIG"
-echo -e "preload = $NEXT\nwallpaper = eDP-1,$NEXT" > "$HPAPER"
+sed -i "s|^exec-once = swaybg -i .* -m fill|exec-once = swaybg -i \"$NEXT\" -m fill|" "$CONFIG"
 
-hyprctl hyprpaper wallpaper "eDP-1,$NEXT"
+pkill swaybg 2>/dev/null
+swaybg -i "$NEXT" -m fill &
+disown
 notify-send "Wallpaper" "$(basename "$NEXT")"
